@@ -1,4 +1,5 @@
 #define _POSIX_SOURCE
+#define _GNU_SOURCE
 
 #ifndef COMMONS_H
 #define COMMONS_H
