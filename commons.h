@@ -12,7 +12,11 @@
 #include <unistd.h>
 
 // data types //
-
+typedef enum {
+    MIN,
+    STANDARD,
+    MAX
+} priority_level_t;
 
 // structures //
 
