@@ -13,9 +13,9 @@
 
 // data types //
 typedef enum {
-    MIN,
-    STANDARD,
-    MAX
+    MIN = 0,
+    STANDARD = 1,
+    MAX = 2
 } priority_level_t;
 
 // structures //
