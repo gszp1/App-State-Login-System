@@ -11,6 +11,12 @@
 #include <signal.h>
 #include <unistd.h>
 
+/* Used signals:
+    SIGRTMIN - dump
+    SIGRTMIN + 1 - toggle log [0, 1]
+    SIGRTMIN + 2 - change login priority [0, 1, 2]
+*/
+
 // data types //
 typedef enum {
     MIN = 0,
