@@ -1,8 +1,8 @@
 #define _POSIX_SOURCE
 #define _GNU_SOURCE
 
-#ifndef COMMONS_H
-#define COMMONS_H
+#ifndef LOGGER_COMMONS_H
+#define LOGGER_COMMONS_H
 
 // includes //
 #include <stdio.h>
@@ -23,6 +23,7 @@ typedef enum {
 
 // declarations //
 
+int initialize_logger();
 
 
-#endif //ifndef COMMONS_H
+#endif //ifndef LOGGER_COMMONS_H

@@ -1,4 +1,4 @@
-#include "commons.h"
+#include "logger_commons.h"
 
 int main(int argc, char** argv) {
     sigset_t signal_set;
