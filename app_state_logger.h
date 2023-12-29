@@ -1,8 +1,8 @@
 #define _POSIX_SOURCE
 #define _GNU_SOURCE
 
-#ifndef LOGGER_COMMONS_H
-#define LOGGER_COMMONS_H
+#ifndef APP_STATE_LOGGER_H
+#define APP_STATE_LOGGER_H
 
 // includes //
 #include <stdio.h>
@@ -10,6 +10,7 @@
 #include <pthread.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdatomic.h>
 
 /* Used signals:
     SIGRTMIN - dump
@@ -31,5 +32,7 @@ typedef enum {
 
 int initialize_logger();
 
+int change_login_priority(int new_priority);
 
-#endif //ifndef LOGGER_COMMONS_H
+
+#endif //ifndef APP_STATE_LOGGER_H
