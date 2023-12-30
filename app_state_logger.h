@@ -32,6 +32,12 @@ typedef enum {
 
 int initialize_logger();
 
+void handler_toggle_login_signal();
+
+void handler_priority_toggle_signal();
+
+void handler_create_dump_file_signal();
+
 int change_login_priority(int new_priority);
 
 
