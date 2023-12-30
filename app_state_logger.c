@@ -15,14 +15,6 @@ void initialize_logger() {
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
 }
 
-int change_login_priority(int new_priority) {
-    if (new_priority < MIN || new_priority > MAX) {
-        return -1;
-    }
-    atomic_store(&priority_level, new_priority);
-    return 0;
-}
-
 // handlers //
 
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {

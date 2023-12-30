@@ -37,8 +37,6 @@ typedef enum {
 
 void initialize_logger();
 
-int change_login_priority(int new_priority);
-
 // signal handlers declarations //
 
 void handler_toggle_login_signal();
