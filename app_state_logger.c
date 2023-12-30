@@ -9,9 +9,6 @@ void initialize_logger() {
     atomic_store(&login_status, ON);
     sigset_t signal_set;
     sigemptyset(&signal_set);
-    sigaddset(&signal_set, SIGRTMIN);
-    sigaddset(&signal_set, SIGRTMIN + 1);
-    sigaddset(&signal_set, SIGRTMIN + 2);
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
 }
 
