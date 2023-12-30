@@ -33,16 +33,18 @@ typedef enum {
 // structures //
 
 
-// declarations //
+// function declarations //
 
 void initialize_logger();
+
+int change_login_priority(int new_priority);
+
+// signal handlers //
 
 void handler_toggle_login_signal();
 
 void handler_priority_toggle_signal();
 
 void handler_create_dump_file_signal();
-
-int change_login_priority(int new_priority);
 
 #endif //ifndef APP_STATE_LOGGER_H
