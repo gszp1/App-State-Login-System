@@ -37,6 +37,8 @@ typedef enum {
 
 void initialize_logger();
 
+void add_handlers();
+
 // signal handlers declarations //
 
 void handler_toggle_login_signal();

@@ -15,6 +15,13 @@ void initialize_logger() {
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
 }
 
+void add_handlers() {
+    struct sigaction sa;
+    sa.sa_sigaction = handler_priority_toggle_signal;
+    sa.sa_flags = SA_SIGINFO;
+    sigaction(SIGRTMIN + 1, &sa, NULL);
+}
+
 // handlers //
 
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
