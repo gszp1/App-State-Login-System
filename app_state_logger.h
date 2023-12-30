@@ -39,11 +39,11 @@ void initialize_logger();
 
 int change_login_priority(int new_priority);
 
-// signal handlers //
+// signal handlers declarations //
 
 void handler_toggle_login_signal();
 
-void handler_priority_toggle_signal();
+void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
 
 void handler_create_dump_file_signal();
 

@@ -22,3 +22,13 @@ int change_login_priority(int new_priority) {
     atomic_store(&priority_level, new_priority);
     return 0;
 }
+
+// handlers //
+
+void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
+    int new_priority_level = info->si_value.sival_int;
+    if (new_priority_level < MIN || new_priority_level > MAX) {
+        return;
+    }
+    atomic_store(&priority_level, new_priority_level);
+}   
