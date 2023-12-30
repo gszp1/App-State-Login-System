@@ -4,7 +4,7 @@ volatile atomic_int priority_level;
 
 volatile atomic_int login_status;
 
-int initialize_logger() {
+void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
     sigset_t signal_set;
