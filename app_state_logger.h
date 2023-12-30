@@ -25,6 +25,11 @@ typedef enum {
     MAX = 2
 } priority_level_t;
 
+typedef enum {
+    OFF = 0,
+    ON = 1
+} login_status_t;
+
 // structures //
 
 
@@ -39,6 +44,5 @@ void handler_priority_toggle_signal();
 void handler_create_dump_file_signal();
 
 int change_login_priority(int new_priority);
-
 
 #endif //ifndef APP_STATE_LOGGER_H

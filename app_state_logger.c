@@ -1,6 +1,8 @@
 #include "app_state_logger.h"
 
-atomic_int priority_level;
+volatile atomic_int priority_level;
+
+volatile atomic_int login_status;
 
 int initialize_logger() {
     
