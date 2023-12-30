@@ -10,10 +10,12 @@ void initialize_logger() {
     sigset_t signal_set;
     sigemptyset(&signal_set);
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
+    add_handlers();
 }
 
 void add_handlers() {
     struct sigaction sa;
+    sigfillset(&(sa.sa_mask));
     sa.sa_sigaction = handler_priority_toggle_signal;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGRTMIN + 1, &sa, NULL);
