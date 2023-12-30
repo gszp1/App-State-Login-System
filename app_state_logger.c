@@ -28,5 +28,6 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     if (new_priority_level < MIN || new_priority_level > MAX) {
         return;
     }
+    printf("Received priority level: %d\n", new_priority_level);
     atomic_store(&priority_level, new_priority_level);
 }   
