@@ -4,6 +4,8 @@ atomic_int priority_level;
 
 atomic_int login_status;
 
+atomic_int thread_stop; 
+
 sem_t dump_semaphore;
 
 pthread_mutex_t data_modification_mutex;
@@ -24,6 +26,7 @@ void initialize_logger() {
     dump_data.dump_area = NULL;
     dump_data.size = 0;
 
+    atomic_store(&thread_stop, 0);
     pthread_t thread;
     pthread_create(&thread, NULL, dump_area, (void*)(&dump_data));
 }
@@ -69,7 +72,7 @@ void* dump_area(void* arg) {
     dump_data_t* data = (dump_data_t*)arg;
     char file_name[128] = {};
     char* write_ptr;
-    while(1) {
+    while(atomic_load(&thread_stop) != 1) {
         sem_wait(&dump_semaphore);
         if (data->size == 0) {
             continue;
@@ -91,6 +94,13 @@ void* dump_area(void* arg) {
     }
 
 }
+
+void destroy_logger() {
+    atomic_store(&thread_stop, 1);
+    sem_destroy(&dump_semaphore);
+    pthread_mutex_destroy(&data_modification_mutex);
+}
+
 
 // handlers //
 

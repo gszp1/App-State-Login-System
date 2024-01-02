@@ -16,4 +16,6 @@ int main() {
     sprintf(data, "Hello world");
     change_dump_data(data, 12);
     sigqueue(getpid(), SIGRTMIN, sv);
+
+    destroy_logger();
 }
