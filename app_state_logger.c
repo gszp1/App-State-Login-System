@@ -6,6 +6,10 @@ atomic_int login_status;
 
 sem_t dump_semaphore;
 
+pthread_mutex_t data_modification_mutex;
+
+dump_data_t dump_data;
+
 void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
@@ -15,6 +19,7 @@ void initialize_logger() {
     add_handlers();
 
     sem_init(&dump_semaphore, 0, 0);
+    pthread_mutex_init(&data_modification_mutex, NULL);
 }
 
 void add_handlers() {
