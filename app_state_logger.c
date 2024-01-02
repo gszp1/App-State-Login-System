@@ -19,6 +19,10 @@ void add_handlers() {
     sa.sa_sigaction = handler_priority_toggle_signal;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGRTMIN + 1, &sa, NULL);
+
+    sa.sa_sigaction = handler_toggle_login_signal;
+    sa.sa_flags = 0;
+    sigaction(SIGRTMIN + 1, &sa, NULL);
 }
 
 void write_to_login_file(const char* message, int priority_level) {
