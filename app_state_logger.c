@@ -18,7 +18,7 @@ void add_handlers() {
     sigfillset(&(sa.sa_mask));
     sa.sa_sigaction = handler_priority_toggle_signal;
     sa.sa_flags = SA_SIGINFO;
-    sigaction(SIGRTMIN + 1, &sa, NULL);
+    sigaction(SIGRTMIN + 2, &sa, NULL);
 
     sa.sa_sigaction = handler_toggle_login_signal;
     sa.sa_flags = 0;
