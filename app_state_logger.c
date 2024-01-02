@@ -68,12 +68,25 @@ void change_dump_data(void* data, long size) {
 void* dump_area(void* arg) {
     dump_data_t* data = (dump_data_t*)arg;
     while(1) {
+        char file_name[128] = {};
+        char* write_ptr;
         sem_wait(&dump_semaphore);
         if (data->size == 0) {
             continue;
         }
         pthread_mutex_lock(&data_modification_mutex);
-        char* write_ptr = data->dump_area;
+        sprintf("dump", &file_name);
+        write_ptr = data->dump_area;
+        FILE* dump_file = fopen(file_name, "w");
+        if (dump_file == NULL) {
+            continue;
+        }
+        int counter = 0;
+        while (counter < data->size) {
+            fputc(*write_ptr, dump_file);
+            ++counter;
+        }
+        fclose(dump_file);
         pthread_mutex_unlock(&data_modification_mutex);
     }
 }
