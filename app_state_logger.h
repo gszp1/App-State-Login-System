@@ -39,6 +39,8 @@ void initialize_logger();
 
 void add_handlers();
 
+void write_message_to_login_file(char* message, long message_length);
+
 // signal handlers declarations //
 
 void handler_toggle_login_signal();
@@ -46,5 +48,4 @@ void handler_toggle_login_signal();
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
 
 void handler_create_dump_file_signal();
-
 #endif //ifndef APP_STATE_LOGGER_H

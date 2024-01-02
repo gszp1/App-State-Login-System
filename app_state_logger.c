@@ -31,3 +31,4 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     printf("Received priority level: %d\n", new_priority_level);
     atomic_store(&priority_level, new_priority_level);
 }   
+
