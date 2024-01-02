@@ -43,7 +43,7 @@ void write_to_login_file(const char* message, int priority_level);
 
 // signal handlers declarations //
 
-void handler_toggle_login_signal();
+void handler_toggle_login_signal(int signo);
 
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
 

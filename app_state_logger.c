@@ -44,3 +44,7 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     atomic_store(&priority_level, new_priority_level);
 }   
 
+void handler_toggle_login_signal(int signo) {
+    int new_login_status = (atomic_load(&login_status) + 1) % 2;
+    atomic_store(&login_status, new_login_status);
+}
