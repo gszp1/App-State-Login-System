@@ -79,12 +79,12 @@ void* dump_area(void* arg) {
     // char file_name[128] = {};
     // char* write_ptr;
     while(atomic_load(&thread_stop) != 1) {
-        printf("hehelo\n");
+        printf("Waiting for semaphore.\n");
         while(sem_wait(&dump_semaphore) && (errno == EINTR)) 
             // if (data->size == 0) {
             //     continue;
             // }
-            printf("HELLO WORLD!\n");
+            printf("Inside semaphore.\n");
             pthread_mutex_lock(&data_modification_mutex);
             // sprintf(file_name, "dump");
             // write_ptr = data->dump_area;
@@ -128,5 +128,5 @@ void handler_toggle_login_signal(int signo) {
 
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
-    printf("Hello\n");
+    printf("Dump signal received.\n");
 }
