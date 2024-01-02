@@ -66,4 +66,5 @@ void handler_toggle_login_signal(int signo) {
 
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
+    printf("Received signal for dump.");
 }
