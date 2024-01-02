@@ -20,6 +20,9 @@ void initialize_logger() {
 
     sem_init(&dump_semaphore, 0, 0);
     pthread_mutex_init(&data_modification_mutex, NULL);
+
+    dump_data.dump_area = NULL;
+    dump_data.size = 0;
 }
 
 void add_handlers() {
@@ -52,6 +55,12 @@ void write_to_login_file(const char* message, int priority_level) {
     fclose(log_file);
 }
 
+void change_dump_data(void* data, long size) {
+    pthread_mutex_lock(&data_modification_mutex);
+    dump_data.dump_area = data;
+    dump_data.size = size;
+    pthread_mutex_unlock(&data_modification_mutex);
+}
 // handlers //
 
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
