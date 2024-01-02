@@ -66,10 +66,14 @@ void change_dump_data(void* data, long size) {
 }
 
 void* dump_area(void* arg) {
+    dump_data_t* data = (dump_data_t*)arg;
     while(1) {
         sem_wait(&dump_semaphore);
+        if (data->size == 0) {
+            continue;
+        }
         pthread_mutex_lock(&data_modification_mutex);
-        printf("Hello world!\n");
+        char* write_ptr = data->dump_area;
         pthread_mutex_unlock(&data_modification_mutex);
     }
 }
