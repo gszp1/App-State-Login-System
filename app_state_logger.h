@@ -39,7 +39,7 @@ void initialize_logger();
 
 void add_handlers();
 
-void write_to_login_file(char* message, int priority_level);
+void write_to_login_file(const char* message, int priority_level);
 
 // signal handlers declarations //
 

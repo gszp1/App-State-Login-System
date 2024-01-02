@@ -21,6 +21,18 @@ void add_handlers() {
     sigaction(SIGRTMIN + 1, &sa, NULL);
 }
 
+void write_to_login_file(const char* message, int priority_level) {
+    if ((message == NULL) || (priority_level < MIN) || (priority_level > MAX)) {
+        return;
+    }
+    FILE* log_file = fopen("logs.txt", "a");
+    if (log_file == NULL) {
+        return;
+    }
+    fprintf(log_file, "%s\n", message);
+    fclose(log_file);
+}
+
 // handlers //
 
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
