@@ -10,5 +10,10 @@ int main() {
     sv.sival_int = 0;
     sigqueue(getpid(), SIGRTMIN + 1, sv);
     
+    // sigqueue(getpid(), SIGRTMIN, sv);
+
+    char* data = calloc(sizeof(char), 12);
+    sprintf(data, "Hello world");
+    change_dump_data(data, 12);
     sigqueue(getpid(), SIGRTMIN, sv);
 }

@@ -67,28 +67,29 @@ void change_dump_data(void* data, long size) {
 
 void* dump_area(void* arg) {
     dump_data_t* data = (dump_data_t*)arg;
+    char file_name[128] = {};
+    char* write_ptr;
     while(1) {
-        char file_name[128] = {};
-        char* write_ptr;
         sem_wait(&dump_semaphore);
         if (data->size == 0) {
             continue;
         }
         pthread_mutex_lock(&data_modification_mutex);
-        sprintf("dump", &file_name);
+        sprintf(file_name, "dump");
         write_ptr = data->dump_area;
         FILE* dump_file = fopen(file_name, "w");
         if (dump_file == NULL) {
+            pthread_mutex_unlock(&data_modification_mutex);
             continue;
         }
         int counter = 0;
         while (counter < data->size) {
-            fputc(*write_ptr, dump_file);
-            ++counter;
+            fputc(*(write_ptr + counter), dump_file);
         }
         fclose(dump_file);
         pthread_mutex_unlock(&data_modification_mutex);
     }
+
 }
 
 // handlers //
@@ -98,17 +99,14 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     if (new_priority_level < MIN || new_priority_level > MAX) {
         return;
     }
-    printf("Received priority level: %d\n", new_priority_level);
     atomic_store(&priority_level, new_priority_level);
 }   
 
 void handler_toggle_login_signal(int signo) {
     int new_login_status = (atomic_load(&login_status) + 1) % 2;
     atomic_store(&login_status, new_login_status);
-    printf("Toggled logins status to: %d\n", new_login_status);
 }
 
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
-    printf("Received signal for dump.");
 }

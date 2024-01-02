@@ -50,6 +50,8 @@ void change_dump_data(void* data, long size);
 
 void* dump_area(void* arg);
 
+void destroy_logger();
+
 // signal handlers declarations //
 
 void handler_toggle_login_signal(int signo);
