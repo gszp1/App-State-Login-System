@@ -24,8 +24,8 @@ void initialize_logger() {
     dump_data.dump_area = NULL;
     dump_data.size = 0;
 
-    int pid;
-    pthread_create(&pid, NULL, dump_area, (void*)(&dump_data));
+    pthread_t thread;
+    pthread_create(&thread, NULL, dump_area, (void*)(&dump_data));
 }
 
 void add_handlers() {
