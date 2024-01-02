@@ -32,6 +32,10 @@ typedef enum {
 
 // structures //
 
+typedef struct {
+    void* dump_area;
+    long size;
+} dump_data_t
 
 // function declarations //
 
@@ -39,7 +43,7 @@ void initialize_logger();
 
 void add_handlers();
 
-void write_to_login_file(const char* message, priority_level_t priority_level);
+void write_to_login_file(const char* message, int priority_level);
 
 // signal handlers declarations //
 
