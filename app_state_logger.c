@@ -20,7 +20,7 @@ void add_handlers() {
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGRTMIN + 2, &sa, NULL);
 
-    sa.sa_sigaction = handler_toggle_login_signal;
+    sa.sa_handler = handler_toggle_login_signal;
     sa.sa_flags = 0;
     sigaction(SIGRTMIN + 1, &sa, NULL);
 }
@@ -54,4 +54,5 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
 void handler_toggle_login_signal(int signo) {
     int new_login_status = (atomic_load(&login_status) + 1) % 2;
     atomic_store(&login_status, new_login_status);
+    printf("Toggled logins status to: %d", new_login_status);
 }
