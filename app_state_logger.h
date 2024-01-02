@@ -47,5 +47,6 @@ void handler_toggle_login_signal(int signo);
 
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
 
-void handler_create_dump_file_signal();
+void handler_create_dump_file_signal(int signo);
+
 #endif //ifndef APP_STATE_LOGGER_H

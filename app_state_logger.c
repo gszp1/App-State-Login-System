@@ -60,3 +60,7 @@ void handler_toggle_login_signal(int signo) {
     atomic_store(&login_status, new_login_status);
     printf("Toggled logins status to: %d\n", new_login_status);
 }
+
+void handler_create_dump_file_signal(int signo) {
+    pthread_mutex_unlock(&dump_mutex);
+}
