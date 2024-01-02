@@ -16,7 +16,10 @@ void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
     sigset_t signal_set;
-    sigemptyset(&signal_set);
+    sigfillset(&signal_set);
+    for (int i = 0; i < 3; ++i) {
+       sigdelset(&signal_set, SIGRTMIN + i); 
+    }
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
     add_handlers();
 
@@ -69,29 +72,34 @@ void change_dump_data(void* data, long size) {
 }
 
 void* dump_area(void* arg) {
+    sigset_t mask;
+    sigfillset(&mask);
+    pthread_sigmask(SIG_BLOCK, &mask, NULL);
     // dump_data_t* data = (dump_data_t*)arg;
     // char file_name[128] = {};
     // char* write_ptr;
     while(atomic_load(&thread_stop) != 1) {
-        while(sem_wait(&dump_semaphore) && errno == EINTR);
-        // if (data->size == 0) {
-        //     continue;
-        // }
-        pthread_mutex_lock(&data_modification_mutex);
-        printf("Hello world\n");
-        // sprintf(file_name, "dump");
-        // write_ptr = data->dump_area;
-        // FILE* dump_file = fopen(file_name, "w");
-        // if (dump_file == NULL) {
-        //     pthread_mutex_unlock(&data_modification_mutex);
-        //     continue;
-        // }
-        // int counter = 0;
-        // while (counter < data->size) {
-        //     fputc(*(write_ptr + counter), dump_file);
-        // }
-        // fclose(dump_file);
-        pthread_mutex_unlock(&data_modification_mutex);
+        printf("hehelo\n");
+        while(sem_wait(&dump_semaphore) && (errno == EINTR)) 
+            // if (data->size == 0) {
+            //     continue;
+            // }
+            printf("HELLO WORLD!\n");
+            pthread_mutex_lock(&data_modification_mutex);
+            // sprintf(file_name, "dump");
+            // write_ptr = data->dump_area;
+            // FILE* dump_file = fopen(file_name, "w");
+            // if (dump_file == NULL) {
+            //     pthread_mutex_unlock(&data_modification_mutex);
+            //     continue;
+            // }
+            // int counter = 0;
+            // while (counter < data->size) {
+            //     fputc(*(write_ptr + counter), dump_file);
+            // }
+            // fclose(dump_file);
+            pthread_mutex_unlock(&data_modification_mutex);
+        
     }
 
 }
@@ -120,5 +128,5 @@ void handler_toggle_login_signal(int signo) {
 
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
-    
+    printf("Hello\n");
 }
