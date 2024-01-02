@@ -69,27 +69,28 @@ void change_dump_data(void* data, long size) {
 }
 
 void* dump_area(void* arg) {
-    dump_data_t* data = (dump_data_t*)arg;
-    char file_name[128] = {};
-    char* write_ptr;
+    // dump_data_t* data = (dump_data_t*)arg;
+    // char file_name[128] = {};
+    // char* write_ptr;
     while(atomic_load(&thread_stop) != 1) {
-        sem_wait(&dump_semaphore);
-        if (data->size == 0) {
-            continue;
-        }
+        while(sem_wait(&dump_semaphore) && errno == EINTR);
+        // if (data->size == 0) {
+        //     continue;
+        // }
         pthread_mutex_lock(&data_modification_mutex);
-        sprintf(file_name, "dump");
-        write_ptr = data->dump_area;
-        FILE* dump_file = fopen(file_name, "w");
-        if (dump_file == NULL) {
-            pthread_mutex_unlock(&data_modification_mutex);
-            continue;
-        }
-        int counter = 0;
-        while (counter < data->size) {
-            fputc(*(write_ptr + counter), dump_file);
-        }
-        fclose(dump_file);
+        printf("Hello world\n");
+        // sprintf(file_name, "dump");
+        // write_ptr = data->dump_area;
+        // FILE* dump_file = fopen(file_name, "w");
+        // if (dump_file == NULL) {
+        //     pthread_mutex_unlock(&data_modification_mutex);
+        //     continue;
+        // }
+        // int counter = 0;
+        // while (counter < data->size) {
+        //     fputc(*(write_ptr + counter), dump_file);
+        // }
+        // fclose(dump_file);
         pthread_mutex_unlock(&data_modification_mutex);
     }
 
@@ -119,4 +120,5 @@ void handler_toggle_login_signal(int signo) {
 
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
+    
 }

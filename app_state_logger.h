@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <stdatomic.h>
 #include <semaphore.h>
+#include <errno.h>
 
 /* Used signals:
     SIGRTMIN - dump

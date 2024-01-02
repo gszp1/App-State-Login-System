@@ -17,7 +17,8 @@ int main() {
     // char* data = calloc(sizeof(char), 12);
     // sprintf(data, "Hello world");
     // change_dump_data(data, 12);
-    // sigqueue(getpid(), SIGRTMIN, sv);
-
+    sigqueue(getpid(), SIGRTMIN, sv);
+    sigqueue(getpid(), SIGRTMIN, sv);
+    sigqueue(getpid(), SIGRTMIN, sv);
     destroy_logger();
 }
