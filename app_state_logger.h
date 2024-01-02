@@ -46,6 +46,8 @@ void add_handlers();
 
 void write_to_login_file(const char* message, int priority_level);
 
+void change_dump_data(void* data, long length);
+
 // signal handlers declarations //
 
 void handler_toggle_login_signal(int signo);
