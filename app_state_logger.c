@@ -4,6 +4,8 @@ atomic_int priority_level;
 
 atomic_int login_status;
 
+pthread_mutex_t dump_mutex;
+
 void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
@@ -11,6 +13,8 @@ void initialize_logger() {
     sigemptyset(&signal_set);
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
     add_handlers();
+
+    pthread_mutex_init(&dump_mutex, NULL);
 }
 
 void add_handlers() {
@@ -54,5 +58,5 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
 void handler_toggle_login_signal(int signo) {
     int new_login_status = (atomic_load(&login_status) + 1) % 2;
     atomic_store(&login_status, new_login_status);
-    printf("Toggled logins status to: %d", new_login_status);
+    printf("Toggled logins status to: %d\n", new_login_status);
 }
