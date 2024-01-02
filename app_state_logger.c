@@ -46,11 +46,11 @@ void add_handlers() {
     sigaction(SIGRTMIN, &sa, NULL);
 }
 
-void write_to_login_file(const char* message, int priority_level) {
-    if ((message == NULL) || (priority_level < MIN) || (priority_level > MAX)) {
+void write_to_login_file(const char* message, int priority) {
+    if ((message == NULL) || (priority < MIN) || (priority > MAX)) {
         return;
     }
-    if (priority_level < atomic_load(&priority_level)) {
+    if (priority < atomic_load(&priority_level)) {
         return;
     }
     FILE* log_file = fopen("logs.txt", "a");

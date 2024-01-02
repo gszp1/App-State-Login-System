@@ -44,7 +44,7 @@ void initialize_logger();
 
 void add_handlers();
 
-void write_to_login_file(const char* message, int priority_level);
+void write_to_login_file(const char* message, int priority);
 
 void change_dump_data(void* data, long size);
 
