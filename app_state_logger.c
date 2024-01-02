@@ -29,6 +29,9 @@ void write_to_login_file(const char* message, int priority_level) {
     if ((message == NULL) || (priority_level < MIN) || (priority_level > MAX)) {
         return;
     }
+    if (priority_level < atomic_load(&priority_level)) {
+        return;
+    }
     FILE* log_file = fopen("logs.txt", "a");
     if (log_file == NULL) {
         return;
