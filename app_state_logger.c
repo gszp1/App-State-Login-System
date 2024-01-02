@@ -27,6 +27,9 @@ void add_handlers() {
     sa.sa_handler = handler_toggle_login_signal;
     sa.sa_flags = 0;
     sigaction(SIGRTMIN + 1, &sa, NULL);
+
+    sa.sa_handler = handler_create_dump_file_signal;
+    sigaction(SIGRTMIN, &sa, NULL);
 }
 
 void write_to_login_file(const char* message, int priority_level) {
