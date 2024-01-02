@@ -23,6 +23,9 @@ void initialize_logger() {
 
     dump_data.dump_area = NULL;
     dump_data.size = 0;
+
+    int pid;
+    pthread_create(&pid, NULL, dump_area, (void*)(&dump_data));
 }
 
 void add_handlers() {
@@ -61,6 +64,16 @@ void change_dump_data(void* data, long size) {
     dump_data.size = size;
     pthread_mutex_unlock(&data_modification_mutex);
 }
+
+void* dump_area(void* arg) {
+    while(1) {
+        sem_wait(&dump_semaphore);
+        pthread_mutex_lock(&data_modification_mutex);
+        printf("Hello world!\n");
+        pthread_mutex_unlock(&data_modification_mutex);
+    }
+}
+
 // handlers //
 
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
