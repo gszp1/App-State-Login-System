@@ -36,7 +36,7 @@ typedef enum {
 typedef struct {
     void* dump_area;
     long size;
-} dump_data_t
+} dump_data_t;
 
 // function declarations //
 
