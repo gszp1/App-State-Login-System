@@ -11,6 +11,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <stdatomic.h>
+#include <semaphore.h>
 
 /* Used signals:
     SIGRTMIN - dump

@@ -4,7 +4,7 @@ atomic_int priority_level;
 
 atomic_int login_status;
 
-pthread_mutex_t dump_mutex;
+sem_t dump_semaphore;
 
 void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
@@ -14,7 +14,7 @@ void initialize_logger() {
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
     add_handlers();
 
-    pthread_mutex_init(&dump_mutex, NULL);
+    sem_init(&dump_semaphore, 0, 0);
 }
 
 void add_handlers() {
@@ -65,5 +65,5 @@ void handler_toggle_login_signal(int signo) {
 }
 
 void handler_create_dump_file_signal(int signo) {
-    pthread_mutex_unlock(&dump_mutex);
+    sem_post(&dump_semaphore);
 }
