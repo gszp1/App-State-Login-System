@@ -7,3 +7,7 @@ rm -f dump*
 rm -f logs.txt
 
 rm tests_out
+
+rm -f cmake-build-debug/dump*
+
+rm -f cmake-build-debug/logs.txt
