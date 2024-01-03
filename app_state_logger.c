@@ -10,6 +10,8 @@ sem_t dump_semaphore;
 
 pthread_mutex_t data_modification_mutex;
 
+pthread_mutex_t log_file_modification_mutex;
+
 dump_data_t dump_data;
 
 pthread_t thread;
@@ -27,7 +29,7 @@ void initialize_logger() {
 
     sem_init(&dump_semaphore, 0, 0);
     pthread_mutex_init(&data_modification_mutex, NULL);
-
+    pthread_mutex_init(&log_file_modification_mutex, NULL);
     dump_data.dump_area = NULL;
     dump_data.size = 0;
 
@@ -57,12 +59,14 @@ void write_to_login_file(const char* message, int priority) {
     if ((priority < atomic_load(&priority_level)) || (atomic_load(&login_status) == OFF)) {
         return;
     }
+    pthread_mutex_lock(&log_file_modification_mutex);
     FILE* log_file = fopen("logs.txt", "a");
     if (log_file == NULL) {
         return;
     }
     fprintf(log_file, "%s\n", message);
     fclose(log_file);
+    pthread_mutex_unlock(&log_file_modification_mutex);
 }
 
 void change_dump_data(void* data, long size) {
