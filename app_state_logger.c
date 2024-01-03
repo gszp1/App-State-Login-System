@@ -14,7 +14,7 @@ static pthread_mutex_t log_file_modification_mutex;
 
 static dump_data_t dump_data;
 
-static pthread_t thread;
+static pthread_t dump_thread;
 
 
 // Handlers definitions //
@@ -144,13 +144,13 @@ void initialize_logger() {
     dump_data.size = 0;
 
     atomic_store(&thread_stop, 0);
-    pthread_create(&thread, NULL, dump_thread_task, (void*)(&dump_data));
+    pthread_create(&dump_thread, NULL, dump_thread_task, (void*)(&dump_data));
 }
 
 // Function for freeing all allocated resources.
 void destroy_logger() {
     atomic_store(&thread_stop, 1);
-    pthread_cancel(thread);
+    pthread_cancel(dump_thread);
     sem_destroy(&dump_semaphore);
     pthread_mutex_destroy(&data_modification_mutex);
     pthread_mutex_destroy(&log_file_modification_mutex);
