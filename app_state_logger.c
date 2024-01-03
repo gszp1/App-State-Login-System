@@ -47,8 +47,6 @@ static void* dump_thread_task(void* arg) {
     sigfillset(&mask);
     pthread_sigmask(SIG_BLOCK, &mask, NULL);
     dump_data_t* data = (dump_data_t*)arg;
-    char file_name[128] = {};
-    char* write_ptr;
     while(atomic_load(&thread_stop) != 1) {
         sem_wait(&dump_semaphore);
         if (data->size == 0) {
@@ -57,6 +55,7 @@ static void* dump_thread_task(void* arg) {
         pthread_mutex_lock(&data_modification_mutex);
         // Check for file with largest number at the end
         int largest_suffix = 1;
+        char file_name[128] = {};
         while (1) {
             sprintf(file_name, "%s%d", "dump", largest_suffix);
             FILE* file = fopen(file_name, "r");
@@ -66,7 +65,7 @@ static void* dump_thread_task(void* arg) {
             fclose(file);
             ++largest_suffix;
         }
-        write_ptr = data->dump_area;
+        char* write_ptr = data->dump_area;
         FILE* dump_file = fopen(file_name, "w");
         if (dump_file == NULL) {
             pthread_mutex_unlock(&data_modification_mutex);
