@@ -10,7 +10,7 @@ int main() {
     write_to_login_file("Hello worldMIN!", MIN);
     write_to_login_file("Hello worldSTANDARD!", STANDARD);
     sv.sival_int = 0;
-    // sigqueue(getpid(), SIGRTMIN + 1, sv);
+    
     sv.sival_int = MAX;
     sigqueue(getpid(), SIGRTMIN + 2, sv);
     write_to_login_file("HALLO DIE WELT!MA", MAX);
@@ -36,9 +36,7 @@ int main() {
         change_dump_data(data, 12);
         sigqueue(getpid(), SIGRTMIN, sv);
     }
-    // sigqueue(getpid(), SIGRTMIN, sv);
-    // sigqueue(getpid(), SIGRTMIN, sv);
-    // destroy_logger();
+   
     while(getchar() != 'q');
     destroy_logger();
 }
