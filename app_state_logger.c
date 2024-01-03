@@ -16,6 +16,29 @@ static dump_data_t dump_data;
 
 static pthread_t thread;
 
+
+// Handlers definitions //
+
+// Handler for changing priority (SIGRTMIN + 2)
+static void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
+    int new_priority_level = info->si_value.sival_int;
+    if (new_priority_level < MIN || new_priority_level > MAX) {
+        return;
+    }
+    atomic_store(&priority_level, new_priority_level);
+}
+
+// Handler for toggling login (SIGRTMIN + 1)
+static void handler_toggle_login_signal(int signo) {
+    int new_login_status = (atomic_load(&login_status) + 1) % 2;
+    atomic_store(&login_status, new_login_status);
+}
+
+// Handler for dump creation signal (SIGRTMIN)
+static void handler_create_dump_file_signal(int signo) {
+    sem_post(&dump_semaphore);
+}
+
 // Function definitions //
 
 // Function for logger initializer.
@@ -129,27 +152,4 @@ void destroy_logger() {
     pthread_cancel(thread);
     sem_destroy(&dump_semaphore);
     pthread_mutex_destroy(&data_modification_mutex);
-}
-
-
-// Handlers definitions //
-
-// Handler for changing priority (SIGRTMIN + 2)
-static void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
-    int new_priority_level = info->si_value.sival_int;
-    if (new_priority_level < MIN || new_priority_level > MAX) {
-        return;
-    }
-    atomic_store(&priority_level, new_priority_level);
-}
-
-// Handler for toggling login (SIGRTMIN + 1)
-static void handler_toggle_login_signal(int signo) {
-    int new_login_status = (atomic_load(&login_status) + 1) % 2;
-    atomic_store(&login_status, new_login_status);
-}
-
-// Handler for dump creation signal (SIGRTMIN)
-static void handler_create_dump_file_signal(int signo) {
-    sem_post(&dump_semaphore);
 }
