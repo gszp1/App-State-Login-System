@@ -31,9 +31,9 @@ int main() {
     write_to_login_file("HALLO DIE WELT!LABA", MIN);
 
     char* data = calloc(12, sizeof(char));
+    sprintf(data, "Hello world");
+    change_dump_data(data, 11);
     for (int i = 0; i < 100; ++i) {
-        sprintf(data, "Hello world");
-        change_dump_data(data, 11);
         sigqueue(getpid(), SIGRTMIN, sv);
     }
     free(data);

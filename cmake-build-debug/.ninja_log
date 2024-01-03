@@ -1,0 +1,14 @@
+# ninja log v5
+0	19	1704317762757407759	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+0	25	1704317762765407810	CMakeFiles/App_State_Login_System.dir/app_state_logger.c.o	8b41415b2316cdbd
+25	36	1704317762777407888	App_State_Login_System	4a89e8d7560afa9d
+0	23	1704318084863226418	CMakeFiles/App_State_Login_System.dir/app_state_logger.c.o	8b41415b2316cdbd
+24	36	1704318084875226485	App_State_Login_System	4a89e8d7560afa9d
+0	20	1704318616734384834	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+20	32	1704318616746384906	App_State_Login_System	4a89e8d7560afa9d
+0	19	1704318712854973505	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+20	31	1704318712866973577	App_State_Login_System	4a89e8d7560afa9d
+0	42	1704318828902407713	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+42	58	1704318828918407713	App_State_Login_System	4a89e8d7560afa9d
+1	20	1704318864314621570	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+20	32	1704318864330621664	App_State_Login_System	4a89e8d7560afa9d
