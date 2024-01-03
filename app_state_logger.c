@@ -97,6 +97,7 @@ void* dump_area(void* arg) {
         int counter = 0;
         while (counter < data->size) {
             fputc(*(write_ptr + counter), dump_file);
+            ++counter;
         }
         fclose(dump_file);
         pthread_mutex_unlock(&data_modification_mutex);
