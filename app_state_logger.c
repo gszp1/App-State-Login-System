@@ -37,7 +37,7 @@ void initialize_logger() {
     dump_data.size = 0;
 
     atomic_store(&thread_stop, 0);
-    pthread_create(&thread, NULL, dump_area, (void*)(&dump_data));
+    pthread_create(&thread, NULL, dump_thread_task, (void*)(&dump_data));
 }
 
 // Function for adding handlers.
@@ -83,7 +83,7 @@ void change_dump_data(void* data, long size) {
 }
 
 // Function for thread creating dump files.
-void* dump_area(void* arg) {
+void* dump_thread_task(void* arg) {
     sigset_t mask;
     sigfillset(&mask);
     pthread_sigmask(SIG_BLOCK, &mask, NULL);

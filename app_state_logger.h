@@ -58,7 +58,7 @@ void write_to_login_file(const char* message, int priority);
 void change_dump_data(void* data, long size);
 
 // Function for thread creating dump files.
-void* dump_area(void* arg);
+void* dump_thread_task(void* arg);
 
 // Function for freeing all allocated resources.
 void destroy_logger();

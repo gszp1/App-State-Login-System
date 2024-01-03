@@ -30,13 +30,13 @@ int main() {
     write_to_login_file("HALLO DIE WELT!DUBI", MAX);
     write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
     write_to_login_file("HALLO DIE WELT!LABA", MIN);
-    // sigqueue(getpid(), SIGRTMIN, sv);
-    // for (int i = 0; i < 100; ++i) {
-    //     char* data = calloc(sizeof(char), 12);
-    //     sprintf(data, "Hello world");
-    //     change_dump_data(data, 12);
-    //     sigqueue(getpid(), SIGRTMIN, sv);
-    // }
+
+    for (int i = 0; i < 100; ++i) {
+        char* data = calloc(sizeof(char), 12);
+        sprintf(data, "Hello world");
+        change_dump_data(data, 12);
+        sigqueue(getpid(), SIGRTMIN, sv);
+    }
     // sigqueue(getpid(), SIGRTMIN, sv);
     // sigqueue(getpid(), SIGRTMIN, sv);
     // destroy_logger();
