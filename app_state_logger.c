@@ -53,7 +53,7 @@ void write_to_login_file(const char* message, int priority) {
     if ((message == NULL) || (priority < MIN) || (priority > MAX)) {
         return;
     }
-    if (priority < atomic_load(&priority_level)) {
+    if ((priority < atomic_load(&priority_level)) || (atomic_load(&login_status) == OFF)) {
         return;
     }
     FILE* log_file = fopen("logs.txt", "a");
