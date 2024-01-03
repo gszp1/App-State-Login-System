@@ -16,9 +16,9 @@ dump_data_t dump_data;
 
 pthread_t thread;
 
-// Functions //
+// Function definitions //
 
-//Function for logger initializer.
+// Function for logger initializer.
 void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
@@ -123,7 +123,7 @@ void* dump_area(void* arg) {
     }
 }
 
-// function for freeing all allocated resources.
+// Function for freeing all allocated resources.
 void destroy_logger() {
     atomic_store(&thread_stop, 1);
     pthread_cancel(thread);
@@ -132,9 +132,9 @@ void destroy_logger() {
 }
 
 
-// handlers //
+// Handlers definitions //
 
-//handler for changing priority (SIGRTMIN + 2)
+// Handler for changing priority (SIGRTMIN + 2)
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     int new_priority_level = info->si_value.sival_int;
     if (new_priority_level < MIN || new_priority_level > MAX) {
@@ -143,13 +143,13 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     atomic_store(&priority_level, new_priority_level);
 }
 
-//handler for toggling login (SIGRTMIN + 1)
+// Handler for toggling login (SIGRTMIN + 1)
 void handler_toggle_login_signal(int signo) {
     int new_login_status = (atomic_load(&login_status) + 1) % 2;
     atomic_store(&login_status, new_login_status);
 }
 
-// handler for dump creation signal (SIGRTMIN)
+// Handler for dump creation signal (SIGRTMIN)
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
 }
