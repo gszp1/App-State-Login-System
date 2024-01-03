@@ -135,7 +135,7 @@ void destroy_logger() {
 // Handlers definitions //
 
 // Handler for changing priority (SIGRTMIN + 2)
-void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
+static void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     int new_priority_level = info->si_value.sival_int;
     if (new_priority_level < MIN || new_priority_level > MAX) {
         return;
@@ -144,12 +144,12 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
 }
 
 // Handler for toggling login (SIGRTMIN + 1)
-void handler_toggle_login_signal(int signo) {
+static void handler_toggle_login_signal(int signo) {
     int new_login_status = (atomic_load(&login_status) + 1) % 2;
     atomic_store(&login_status, new_login_status);
 }
 
 // Handler for dump creation signal (SIGRTMIN)
-void handler_create_dump_file_signal(int signo) {
+static void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
 }

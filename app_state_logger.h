@@ -49,7 +49,7 @@ typedef struct {
 void initialize_logger();
 
 // Function for adding handlers.
-void add_handlers();
+static void add_handlers();
 
 // Function for writing logs into log file.
 void write_to_login_file(const char* message, int priority);
@@ -58,7 +58,7 @@ void write_to_login_file(const char* message, int priority);
 void change_dump_data(void* data, long size);
 
 // Function for thread creating dump files.
-void* dump_thread_task(void* arg);
+static void* dump_thread_task(void* arg);
 
 // Function for freeing all allocated resources.
 void destroy_logger();
@@ -66,12 +66,12 @@ void destroy_logger();
 // Signal handlers declarations //
 
 // Handler for changing priority (SIGRTMIN + 2)
-void handler_toggle_login_signal(int signo);
+static void handler_toggle_login_signal(int signo);
 
 // Handler for toggling login (SIGRTMIN + 1)
-void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
+static void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
 
 // Handler for dump creation signal (SIGRTMIN)
-void handler_create_dump_file_signal(int signo);
+static void handler_create_dump_file_signal(int signo);
 
 #endif // ifndef APP_STATE_LOGGER_H
