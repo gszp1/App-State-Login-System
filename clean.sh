@@ -6,4 +6,4 @@ rm -f dump*
 
 rm -f logs.txt
 
-rm out
+rm tests_out
