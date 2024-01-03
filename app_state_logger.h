@@ -48,17 +48,11 @@ typedef struct {
 // Function for logger initializer.
 void initialize_logger();
 
-// Function for adding handlers.
-static void add_handlers();
-
 // Function for writing logs into log file.
 void write_to_login_file(const char* message, int priority);
 
 // Function for changing dump contents.
 void change_dump_data(void* data, long size);
-
-// Function for thread creating dump files.
-static void* dump_thread_task(void* arg);
 
 // Function for freeing all allocated resources.
 void destroy_logger();
