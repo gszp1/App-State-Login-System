@@ -22,7 +22,7 @@ static pthread_t thread;
 // Handler for changing priority (SIGRTMIN + 2)
 static void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     int new_priority_level = info->si_value.sival_int;
-    if (new_priority_level < MIN || new_priority_level > MAX) {
+    if ((new_priority_level < MIN) || (new_priority_level > MAX)) {
         return;
     }
     atomic_store(&priority_level, new_priority_level);
