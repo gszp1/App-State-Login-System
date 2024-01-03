@@ -22,4 +22,5 @@ int main() {
     // sigqueue(getpid(), SIGRTMIN, sv);
     // destroy_logger();
     while(getchar() != 'q');
+    destroy_logger();
 }

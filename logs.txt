@@ -228,3 +228,5 @@ Hello worldMAX!
 Hello worldSTANDARD!
 Hello worldMAX!
 Hello worldSTANDARD!
+Hello worldMAX!
+Hello worldSTANDARD!
