@@ -12,6 +12,8 @@ pthread_mutex_t data_modification_mutex;
 
 dump_data_t dump_data;
 
+pthread_t thread;
+
 void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
@@ -30,7 +32,6 @@ void initialize_logger() {
     dump_data.size = 0;
 
     atomic_store(&thread_stop, 0);
-    pthread_t thread;
     pthread_create(&thread, NULL, dump_area, (void*)(&dump_data));
 }
 
@@ -116,6 +117,7 @@ void* dump_area(void* arg) {
 
 void destroy_logger() {
     atomic_store(&thread_stop, 1);
+    pthread_join(&thread, NULL);
     sem_destroy(&dump_semaphore);
     pthread_mutex_destroy(&data_modification_mutex);
 }
