@@ -62,16 +62,3 @@ static void* dump_thread_task(void* arg);
 
 // Function for freeing all allocated resources.
 void destroy_logger();
-
-// Signal handlers declarations //
-
-// Handler for changing priority (SIGRTMIN + 2)
-static void handler_toggle_login_signal(int signo);
-
-// Handler for toggling login (SIGRTMIN + 1)
-static void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
-
-// Handler for dump creation signal (SIGRTMIN)
-static void handler_create_dump_file_signal(int signo);
-
-#endif // ifndef APP_STATE_LOGGER_H
