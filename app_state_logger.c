@@ -16,6 +16,9 @@ dump_data_t dump_data;
 
 pthread_t thread;
 
+// Functions //
+
+//Function for logger initializer.
 void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
@@ -37,6 +40,7 @@ void initialize_logger() {
     pthread_create(&thread, NULL, dump_area, (void*)(&dump_data));
 }
 
+// Function for adding handlers.
 void add_handlers() {
     struct sigaction sa;
     sigfillset(&(sa.sa_mask));
@@ -52,6 +56,7 @@ void add_handlers() {
     sigaction(SIGRTMIN, &sa, NULL);
 }
 
+// Function for writing logs into log file.
 void write_to_login_file(const char* message, int priority) {
     if ((message == NULL) || (priority < MIN) || (priority > MAX)) {
         return;
@@ -69,6 +74,7 @@ void write_to_login_file(const char* message, int priority) {
     pthread_mutex_unlock(&log_file_modification_mutex);
 }
 
+// Function for changing dump contents.
 void change_dump_data(void* data, long size) {
     pthread_mutex_lock(&data_modification_mutex);
     dump_data.dump_area = data;
@@ -76,6 +82,7 @@ void change_dump_data(void* data, long size) {
     pthread_mutex_unlock(&data_modification_mutex);
 }
 
+// Function for thread creating dump files.
 void* dump_area(void* arg) {
     sigset_t mask;
     sigfillset(&mask);
@@ -116,6 +123,7 @@ void* dump_area(void* arg) {
     }
 }
 
+// function for freeing all allocated resources.
 void destroy_logger() {
     atomic_store(&thread_stop, 1);
     pthread_cancel(thread);
@@ -126,6 +134,7 @@ void destroy_logger() {
 
 // handlers //
 
+//handler for changing priority (SIGRTMIN + 2)
 void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     int new_priority_level = info->si_value.sival_int;
     if (new_priority_level < MIN || new_priority_level > MAX) {
@@ -134,11 +143,13 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
     atomic_store(&priority_level, new_priority_level);
 }
 
+//handler for toggling login (SIGRTMIN + 1)
 void handler_toggle_login_signal(int signo) {
     int new_login_status = (atomic_load(&login_status) + 1) % 2;
     atomic_store(&login_status, new_login_status);
 }
 
+// handler for dump creation signal (SIGRTMIN)
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
 }
