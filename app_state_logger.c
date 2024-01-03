@@ -4,7 +4,7 @@ atomic_int priority_level;
 
 atomic_int login_status;
 
-atomic_int thread_stop; 
+atomic_int thread_stop;
 
 sem_t dump_semaphore;
 
@@ -22,7 +22,7 @@ void initialize_logger() {
     sigset_t signal_set;
     sigfillset(&signal_set);
     for (int i = 0; i < 3; ++i) {
-       sigdelset(&signal_set, SIGRTMIN + i); 
+       sigdelset(&signal_set, SIGRTMIN + i);
     }
     pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
     add_handlers();
@@ -132,7 +132,7 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context) {
         return;
     }
     atomic_store(&priority_level, new_priority_level);
-}   
+}
 
 void handler_toggle_login_signal(int signo) {
     int new_login_status = (atomic_load(&login_status) + 1) % 2;
