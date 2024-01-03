@@ -43,7 +43,7 @@ typedef struct {
     long size;
 } dump_data_t;
 
-// function declarations //
+// Function declarations //
 
 // Function for logger initializer.
 void initialize_logger();
@@ -74,4 +74,4 @@ void handler_priority_toggle_signal(int signo, siginfo_t* info, void* context);
 // Handler for dump creation signal (SIGRTMIN)
 void handler_create_dump_file_signal(int signo);
 
-#endif //ifndef APP_STATE_LOGGER_H
+#endif // ifndef APP_STATE_LOGGER_H
