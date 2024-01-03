@@ -56,3 +56,5 @@ void change_dump_data(void* data, long size);
 
 // Function for freeing all allocated resources.
 void destroy_logger();
+
+#endif //ifndef APP_STATE_LOGGER_H
