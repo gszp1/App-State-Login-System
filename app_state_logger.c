@@ -87,7 +87,17 @@ void* dump_area(void* arg) {
         }
         pthread_mutex_lock(&data_modification_mutex);
         printf("Inside mutex.\n");
-        sprintf(file_name, "dump");
+        // Check for file with largest number at the end
+        int largest_suffix = 1;
+        while (1) {
+            sprintf(file_name, "%s%d", "dump", largest_suffix);
+            FILE* file = fopen(file_name, "r");
+            if (file == NULL) {
+                break;
+            }
+            fclose(file);
+            ++largest_suffix;
+        }
         write_ptr = data->dump_area;
         FILE* dump_file = fopen(file_name, "w");
         if (dump_file == NULL) {
