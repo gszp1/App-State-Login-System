@@ -131,7 +131,7 @@ void initialize_logger() {
     sigset_t signal_set;
     sigemptyset(&signal_set);
     for (int i = 0; i < 3; ++i) {
-       sigdelset(&signal_set, SIGRTMIN + i);
+       sigaddset(&signal_set, SIGRTMIN + i);
     }
     pthread_sigmask(SIG_UNBLOCK, &signal_set, NULL);
     add_handlers();
