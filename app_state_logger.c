@@ -1,20 +1,20 @@
 #include "app_state_logger.h"
 
-atomic_int priority_level;
+static atomic_int priority_level;
 
-atomic_int login_status;
+static atomic_int login_status;
 
-atomic_int thread_stop;
+static atomic_int thread_stop;
 
-sem_t dump_semaphore;
+static sem_t dump_semaphore;
 
-pthread_mutex_t data_modification_mutex;
+static pthread_mutex_t data_modification_mutex;
 
-pthread_mutex_t log_file_modification_mutex;
+static pthread_mutex_t log_file_modification_mutex;
 
-dump_data_t dump_data;
+static dump_data_t dump_data;
 
-pthread_t thread;
+static pthread_t thread;
 
 // Function definitions //
 
