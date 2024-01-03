@@ -53,7 +53,7 @@ static void* dump_thread_task(void* arg) {
             continue;
         }
         pthread_mutex_lock(&data_modification_mutex);
-        // Check for file with largest number at the end
+        // Check for file with the largest number at the end
         int largest_suffix = 1;
         char file_name[128] = {};
         while (1) {
