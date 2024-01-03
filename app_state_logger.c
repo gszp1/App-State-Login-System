@@ -93,6 +93,7 @@ void write_to_login_file(const char* message, int priority) {
     pthread_mutex_lock(&log_file_modification_mutex);
     FILE* log_file = fopen("logs.txt", "a");
     if (log_file == NULL) {
+        pthread_mutex_unlock(&log_file_modification_mutex);
         return;
     }
     fprintf(log_file, "%s\n", message);
