@@ -30,12 +30,13 @@ int main() {
     write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
     write_to_login_file("HALLO DIE WELT!LABA", MIN);
 
+    char* data = calloc(12, sizeof(char));
     for (int i = 0; i < 100; ++i) {
-        char* data = calloc(12, sizeof(char));
         sprintf(data, "Hello world");
         change_dump_data(data, 11);
         sigqueue(getpid(), SIGRTMIN, sv);
     }
+    free(data);
    
     while(getchar() != 'q');
     destroy_logger();
