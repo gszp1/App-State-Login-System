@@ -1,6 +1,3 @@
-#define _POSIX_SOURCE
-#define _GNU_SOURCE
-
 #ifndef APP_STATE_LOGGER_H
 #define APP_STATE_LOGGER_H
 

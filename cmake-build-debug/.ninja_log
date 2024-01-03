@@ -1,0 +1,6 @@
+# ninja log v5
+0	24	1704315159192549738	CMakeFiles/App_State_Login_System.dir/app_state_logger.c.o	8b41415b2316cdbd
+0	19	1704315159188549711	CMakeFiles/App_State_Login_System.dir/test.c.o	d8601d92594355c7
+0	19	1704315159188549711	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+0	11	1704315172360634025	build.ninja	66e6a86fde7f901c
+0	12	1704315172372634101	App_State_Login_System	4a89e8d7560afa9d
