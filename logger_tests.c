@@ -18,7 +18,6 @@ int main() {
     write_to_login_file("HALLO DIE WELT!MI", MIN);
 
     sv.sival_int = MAX;
-    sv.sival_int = 0;
     sigqueue(getpid(), SIGRTMIN + 1, sv);
     write_to_login_file("HALLO DIE WELT!CHIPI", MAX);
     write_to_login_file("HALLO DIE WELT!CHIPI", STANDARD);
