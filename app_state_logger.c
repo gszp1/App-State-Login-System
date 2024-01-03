@@ -41,44 +41,6 @@ static void handler_create_dump_file_signal(int signo) {
 
 // Function definitions //
 
-// Static Function for adding handlers.
-static void add_handlers() {
-    struct sigaction sa;
-    sigfillset(&(sa.sa_mask));
-    sa.sa_sigaction = handler_priority_toggle_signal;
-    sa.sa_flags = SA_SIGINFO;
-    sigaction(SIGRTMIN + 2, &sa, NULL);
-
-    sa.sa_handler = handler_toggle_login_signal;
-    sa.sa_flags = 0;
-    sigaction(SIGRTMIN + 1, &sa, NULL);
-
-    sa.sa_handler = handler_create_dump_file_signal;
-    sigaction(SIGRTMIN, &sa, NULL);
-}
-
-// Function for logger initializer.
-void initialize_logger() {
-    atomic_store(&priority_level, STANDARD);
-    atomic_store(&login_status, ON);
-    sigset_t signal_set;
-    sigemptyset(&signal_set);
-    for (int i = 0; i < 3; ++i) {
-       sigdelset(&signal_set, SIGRTMIN + i);
-    }
-    pthread_sigmask(SIG_UNBLOCK, &signal_set, NULL);
-    add_handlers();
-
-    sem_init(&dump_semaphore, 0, 0);
-    pthread_mutex_init(&data_modification_mutex, NULL);
-    pthread_mutex_init(&log_file_modification_mutex, NULL);
-    dump_data.dump_area = NULL;
-    dump_data.size = 0;
-
-    atomic_store(&thread_stop, 0);
-    pthread_create(&thread, NULL, dump_thread_task, (void*)(&dump_data));
-}
-
 // Static Function for thread creating dump files.
 static void* dump_thread_task(void* arg) {
     sigset_t mask;
@@ -144,6 +106,44 @@ void change_dump_data(void* data, long size) {
     dump_data.dump_area = data;
     dump_data.size = size;
     pthread_mutex_unlock(&data_modification_mutex);
+}
+
+// Static Function for adding handlers.
+static void add_handlers() {
+    struct sigaction sa;
+    sigfillset(&(sa.sa_mask));
+    sa.sa_sigaction = handler_priority_toggle_signal;
+    sa.sa_flags = SA_SIGINFO;
+    sigaction(SIGRTMIN + 2, &sa, NULL);
+
+    sa.sa_handler = handler_toggle_login_signal;
+    sa.sa_flags = 0;
+    sigaction(SIGRTMIN + 1, &sa, NULL);
+
+    sa.sa_handler = handler_create_dump_file_signal;
+    sigaction(SIGRTMIN, &sa, NULL);
+}
+
+// Function for logger initializer.
+void initialize_logger() {
+    atomic_store(&priority_level, STANDARD);
+    atomic_store(&login_status, ON);
+    sigset_t signal_set;
+    sigemptyset(&signal_set);
+    for (int i = 0; i < 3; ++i) {
+       sigdelset(&signal_set, SIGRTMIN + i);
+    }
+    pthread_sigmask(SIG_UNBLOCK, &signal_set, NULL);
+    add_handlers();
+
+    sem_init(&dump_semaphore, 0, 0);
+    pthread_mutex_init(&data_modification_mutex, NULL);
+    pthread_mutex_init(&log_file_modification_mutex, NULL);
+    dump_data.dump_area = NULL;
+    dump_data.size = 0;
+
+    atomic_store(&thread_stop, 0);
+    pthread_create(&thread, NULL, dump_thread_task, (void*)(&dump_data));
 }
 
 // Function for freeing all allocated resources.
