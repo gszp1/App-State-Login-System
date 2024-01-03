@@ -20,11 +20,11 @@ void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
     sigset_t signal_set;
-    sigfillset(&signal_set);
+    sigemptyset(&signal_set);
     for (int i = 0; i < 3; ++i) {
        sigdelset(&signal_set, SIGRTMIN + i);
     }
-    pthread_sigmask(SIG_SETMASK, &signal_set, NULL);
+    pthread_sigmask(SIG_UNBLOCK, &signal_set, NULL);
     add_handlers();
 
     sem_init(&dump_semaphore, 0, 0);
@@ -118,7 +118,7 @@ void* dump_area(void* arg) {
 
 void destroy_logger() {
     atomic_store(&thread_stop, 1);
-    pthread_join(thread, NULL);
+    pthread_cancel(thread);
     sem_destroy(&dump_semaphore);
     pthread_mutex_destroy(&data_modification_mutex);
 }
