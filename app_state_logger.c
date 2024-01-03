@@ -41,6 +41,22 @@ static void handler_create_dump_file_signal(int signo) {
 
 // Function definitions //
 
+// Static Function for adding handlers.
+static void add_handlers() {
+    struct sigaction sa;
+    sigfillset(&(sa.sa_mask));
+    sa.sa_sigaction = handler_priority_toggle_signal;
+    sa.sa_flags = SA_SIGINFO;
+    sigaction(SIGRTMIN + 2, &sa, NULL);
+
+    sa.sa_handler = handler_toggle_login_signal;
+    sa.sa_flags = 0;
+    sigaction(SIGRTMIN + 1, &sa, NULL);
+
+    sa.sa_handler = handler_create_dump_file_signal;
+    sigaction(SIGRTMIN, &sa, NULL);
+}
+
 // Function for logger initializer.
 void initialize_logger() {
     atomic_store(&priority_level, STANDARD);
@@ -63,49 +79,7 @@ void initialize_logger() {
     pthread_create(&thread, NULL, dump_thread_task, (void*)(&dump_data));
 }
 
-// Function for adding handlers.
-static void add_handlers() {
-    struct sigaction sa;
-    sigfillset(&(sa.sa_mask));
-    sa.sa_sigaction = handler_priority_toggle_signal;
-    sa.sa_flags = SA_SIGINFO;
-    sigaction(SIGRTMIN + 2, &sa, NULL);
-
-    sa.sa_handler = handler_toggle_login_signal;
-    sa.sa_flags = 0;
-    sigaction(SIGRTMIN + 1, &sa, NULL);
-
-    sa.sa_handler = handler_create_dump_file_signal;
-    sigaction(SIGRTMIN, &sa, NULL);
-}
-
-// Function for writing logs into log file.
-void write_to_login_file(const char* message, int priority) {
-    if ((message == NULL) || (priority < MIN) || (priority > MAX)) {
-        return;
-    }
-    if ((priority < atomic_load(&priority_level)) || (atomic_load(&login_status) == OFF)) {
-        return;
-    }
-    pthread_mutex_lock(&log_file_modification_mutex);
-    FILE* log_file = fopen("logs.txt", "a");
-    if (log_file == NULL) {
-        return;
-    }
-    fprintf(log_file, "%s\n", message);
-    fclose(log_file);
-    pthread_mutex_unlock(&log_file_modification_mutex);
-}
-
-// Function for changing dump contents.
-void change_dump_data(void* data, long size) {
-    pthread_mutex_lock(&data_modification_mutex);
-    dump_data.dump_area = data;
-    dump_data.size = size;
-    pthread_mutex_unlock(&data_modification_mutex);
-}
-
-// Function for thread creating dump files.
+// Static Function for thread creating dump files.
 static void* dump_thread_task(void* arg) {
     sigset_t mask;
     sigfillset(&mask);
@@ -144,6 +118,32 @@ static void* dump_thread_task(void* arg) {
         fclose(dump_file);
         pthread_mutex_unlock(&data_modification_mutex);
     }
+}
+
+// Function for writing logs into log file.
+void write_to_login_file(const char* message, int priority) {
+    if ((message == NULL) || (priority < MIN) || (priority > MAX)) {
+        return;
+    }
+    if ((priority < atomic_load(&priority_level)) || (atomic_load(&login_status) == OFF)) {
+        return;
+    }
+    pthread_mutex_lock(&log_file_modification_mutex);
+    FILE* log_file = fopen("logs.txt", "a");
+    if (log_file == NULL) {
+        return;
+    }
+    fprintf(log_file, "%s\n", message);
+    fclose(log_file);
+    pthread_mutex_unlock(&log_file_modification_mutex);
+}
+
+// Function for changing dump contents.
+void change_dump_data(void* data, long size) {
+    pthread_mutex_lock(&data_modification_mutex);
+    dump_data.dump_area = data;
+    dump_data.size = size;
+    pthread_mutex_unlock(&data_modification_mutex);
 }
 
 // Function for freeing all allocated resources.
