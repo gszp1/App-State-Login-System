@@ -84,14 +84,11 @@ void* dump_area(void* arg) {
     char file_name[128] = {};
     char* write_ptr;
     while(atomic_load(&thread_stop) != 1) {
-        printf("Waiting for semaphore.\n");
         sem_wait(&dump_semaphore);
-        printf("Inside semaphore.\n");
         if (data->size == 0) {
             continue;
         }
         pthread_mutex_lock(&data_modification_mutex);
-        printf("Inside mutex.\n");
         // Check for file with largest number at the end
         int largest_suffix = 1;
         while (1) {
@@ -144,5 +141,4 @@ void handler_toggle_login_signal(int signo) {
 
 void handler_create_dump_file_signal(int signo) {
     sem_post(&dump_semaphore);
-    printf("Dump signal received.\n");
 }
