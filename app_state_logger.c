@@ -118,7 +118,7 @@ void* dump_area(void* arg) {
 
 void destroy_logger() {
     atomic_store(&thread_stop, 1);
-    pthread_join(&thread, NULL);
+    pthread_join(thread, NULL);
     sem_destroy(&dump_semaphore);
     pthread_mutex_destroy(&data_modification_mutex);
 }
