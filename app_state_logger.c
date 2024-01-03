@@ -111,9 +111,7 @@ void* dump_area(void* arg) {
         }
         fclose(dump_file);
         pthread_mutex_unlock(&data_modification_mutex);
-        
     }
-
 }
 
 void destroy_logger() {
