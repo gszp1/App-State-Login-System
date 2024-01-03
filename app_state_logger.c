@@ -153,4 +153,5 @@ void destroy_logger() {
     pthread_cancel(thread);
     sem_destroy(&dump_semaphore);
     pthread_mutex_destroy(&data_modification_mutex);
+    pthread_mutex_destroy(&log_file_modification_mutex);
 }
