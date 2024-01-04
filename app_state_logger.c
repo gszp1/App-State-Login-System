@@ -73,7 +73,9 @@ static void* dump_thread_task(void* arg) {
         char* write_ptr = (char*)(data->dump_area);
         unsigned long counter = 0;
         while (counter < data->size) {
-            fputc(*(write_ptr + counter++), dump_file);
+            fputc(*(write_ptr), dump_file);
+            ++write_ptr;
+            ++counter;
         }
         fclose(dump_file);
         pthread_mutex_unlock(&data_modification_mutex);
