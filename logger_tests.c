@@ -38,11 +38,28 @@ int main() {
         // change_dump_data(data, 11);
         sigqueue(getpid(), SIGRTMIN, sv);
     }
+    int j = 0;
     for (int i = 0; i < 100; ++i) {
-        // char* data = calloc(12, sizeof(char)); 
-        sprintf(data, "Hello");
-        change_dump_data(data, 5);
-        sigqueue(getpid(), SIGRTMIN, sv);
+        sv.sival_int = MAX;
+        sigqueue(getpid(), SIGRTMIN + 2, sv);
+        if (j == 0) {
+            char* data2 = calloc(12, sizeof(char));
+            sprintf(data2, "hallo"); 
+            change_dump_data(data2, 5);
+            sigqueue(getpid(), SIGRTMIN, sv);
+            ++j;
+        } else if (j == 1) {
+            data = calloc(12, sizeof(char));  
+            sprintf(data, "Hello world");
+            change_dump_data(data, 11);
+            sigqueue(getpid(), SIGRTMIN, sv);
+            --j;
+        }
+        sigqueue(getpid(), SIGRTMIN + 1, sv);
+        write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
+         sv.sival_int = MIN;
+        sigqueue(getpid(), SIGRTMIN + 2, sv);
+            write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
     }
    
     while(getchar() != 'q');
