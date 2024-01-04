@@ -13,22 +13,22 @@ int main() {
     
     sv.sival_int = MAX;
     sigqueue(getpid(), SIGRTMIN + 2, sv);
-    write_to_login_file("HALLO DIE WELT!MA", MAX);
-    write_to_login_file("HALLO DIE WELT!ST", STANDARD);
-    write_to_login_file("HALLO DIE WELT!MI", MIN);
+    write_to_login_file("Hello world", MAX);
+    write_to_login_file("Hello world", STANDARD);
+    write_to_login_file("Hello world", MIN);
 
     sv.sival_int = MAX;
     sigqueue(getpid(), SIGRTMIN + 1, sv);
-    write_to_login_file("HALLO DIE WELT!CHIPI", MAX);
-    write_to_login_file("HALLO DIE WELT!CHIPI", STANDARD);
-    write_to_login_file("HALLO DIE WELT!CHAPA", MIN);
+    write_to_login_file("Hello world", MAX);
+    write_to_login_file("Hello world", STANDARD);
+    write_to_login_file("Hello world", MIN);
 
     sv.sival_int = MIN;
     sigqueue(getpid(), SIGRTMIN + 2, sv);
     sigqueue(getpid(), SIGRTMIN + 1, sv);
-    write_to_login_file("HALLO DIE WELT!DUBI", MAX);
-    write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
-    write_to_login_file("HALLO DIE WELT!LABA", MIN);
+    write_to_login_file("Hello world", MAX);
+    write_to_login_file("Hello world", STANDARD);
+    write_to_login_file("Hello world", MIN);
         char* data = calloc(12, sizeof(char));  
         sprintf(data, "Hello world");
         change_dump_data(data, 11);
@@ -56,10 +56,10 @@ int main() {
             --j;
         }
         sigqueue(getpid(), SIGRTMIN + 1, sv);
-        write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
+        write_to_login_file("Hello world", STANDARD);
          sv.sival_int = MIN;
         sigqueue(getpid(), SIGRTMIN + 2, sv);
-            write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
+            write_to_login_file("Hello world", STANDARD);
     }
    
     while(getchar() != 'q');

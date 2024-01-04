@@ -12,3 +12,8 @@
 42	58	1704318828918407713	App_State_Login_System	4a89e8d7560afa9d
 1	20	1704318864314621570	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
 20	32	1704318864330621664	App_State_Login_System	4a89e8d7560afa9d
+0	22	1704331815647716004	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+0	23	1704331815647716004	CMakeFiles/App_State_Login_System.dir/app_state_logger.c.o	8b41415b2316cdbd
+23	34	1704331815659716149	App_State_Login_System	4a89e8d7560afa9d
+0	20	1704332291672898703	CMakeFiles/App_State_Login_System.dir/logger_tests.c.o	56e0ab9c51765bcc
+20	32	1704332291684898821	App_State_Login_System	4a89e8d7560afa9d
