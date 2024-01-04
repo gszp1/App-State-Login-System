@@ -16,6 +16,8 @@ static dump_data_t dump_data;
 
 static pthread_t dump_thread;
 
+static atomic_int logger_initialized = 0;
+
 // Handlers definitions //
 
 // Handler for changing priority (SIGRTMIN + 2)
@@ -132,6 +134,9 @@ static void add_handlers() {
 
 // Function for logger initializer.
 void initialize_logger() {
+    if (atomic_load(&logger_initialized) == 1) {
+        return;
+    }
     atomic_store(&priority_level, STANDARD);
     atomic_store(&login_status, ON);
     sigset_t signal_set;
@@ -150,6 +155,7 @@ void initialize_logger() {
 
     atomic_store(&thread_stop, 0);
     pthread_create(&dump_thread, NULL, dump_thread_task, (void*)(&dump_data));
+    atomic_store(&logger_initialized, 1);
 }
 
 // Function for freeing all allocated resources.
