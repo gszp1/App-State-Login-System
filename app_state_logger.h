@@ -48,7 +48,7 @@ void initialize_logger();
 void write_to_login_file(const char* message, int priority);
 
 // Function for changing dump contents.
-void change_dump_data(void* data, long size);
+void change_dump_data(void* data, unsigned long size);
 
 // Function for freeing all allocated resources.
 void destroy_logger();

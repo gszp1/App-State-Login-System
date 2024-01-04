@@ -101,7 +101,7 @@ void write_to_login_file(const char* message, int priority) {
 }
 
 // Function for changing dump contents.
-void change_dump_data(void* data, long size) {
+void change_dump_data(void* data, unsigned long size) {
     pthread_mutex_lock(&data_modification_mutex);
     dump_data.dump_area = data;
     dump_data.size = size;
