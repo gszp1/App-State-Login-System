@@ -16,7 +16,6 @@ static dump_data_t dump_data;
 
 static pthread_t dump_thread;
 
-
 // Handlers definitions //
 
 // Handler for changing priority (SIGRTMIN + 2)
@@ -46,13 +45,14 @@ static void* dump_thread_task(void* arg) {
     sigset_t mask;
     sigfillset(&mask);
     pthread_sigmask(SIG_BLOCK, &mask, NULL);
-    dump_data_t* data = (dump_data_t*)arg;
     while(atomic_load(&thread_stop) != 1) {
         sem_wait(&dump_semaphore);
-        if (data->size == 0) {
+        pthread_mutex_lock(&data_modification_mutex);
+        dump_data_t* data = (dump_data_t*)arg;
+        if ((data->size < 1) || (data->dump_area == NULL)) {
+            pthread_mutex_unlock(&data_modification_mutex);
             continue;
         }
-        pthread_mutex_lock(&data_modification_mutex);
         // Check for file with the largest number at the end
         int largest_suffix = 1;
         char file_name[128] = {};
@@ -112,14 +112,19 @@ void change_dump_data(void* data, long size) {
 static void add_handlers() {
     struct sigaction sa;
     sigfillset(&(sa.sa_mask));
+    sigdelset(&(sa.sa_mask), SIGRTMIN + 2);
     sa.sa_sigaction = handler_priority_toggle_signal;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGRTMIN + 2, &sa, NULL);
 
+    sigaddset(&(sa.sa_mask), SIGRTMIN + 2);
+    sigdelset(&(sa.sa_mask), SIGRTMIN + 1);
     sa.sa_handler = handler_toggle_login_signal;
     sa.sa_flags = 0;
     sigaction(SIGRTMIN + 1, &sa, NULL);
 
+    sigaddset(&(sa.sa_mask), SIGRTMIN + 1);
+    sigdelset(&(sa.sa_mask), SIGRTMIN);
     sa.sa_handler = handler_create_dump_file_signal;
     sigaction(SIGRTMIN, &sa, NULL);
 }

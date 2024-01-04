@@ -29,14 +29,21 @@ int main() {
     write_to_login_file("HALLO DIE WELT!DUBI", MAX);
     write_to_login_file("HALLO DIE WELT!DUBI", STANDARD);
     write_to_login_file("HALLO DIE WELT!LABA", MIN);
-
-    char* data = calloc(12, sizeof(char));
-    sprintf(data, "Hello world");
-    change_dump_data(data, 11);
+        char* data = calloc(12, sizeof(char));  
+        sprintf(data, "Hello world");
+        change_dump_data(data, 11);
     for (int i = 0; i < 100; ++i) {
+        // char* data = calloc(12, sizeof(char));  
+        // sprintf(data, "Hello world");
+        // change_dump_data(data, 11);
         sigqueue(getpid(), SIGRTMIN, sv);
     }
-    free(data);
+    for (int i = 0; i < 100; ++i) {
+        // char* data = calloc(12, sizeof(char)); 
+        sprintf(data, "Hello");
+        change_dump_data(data, 5);
+        sigqueue(getpid(), SIGRTMIN, sv);
+    }
    
     while(getchar() != 'q');
     destroy_logger();
