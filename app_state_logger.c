@@ -71,7 +71,7 @@ static void* dump_thread_task(void* arg) {
             continue;
         }
         char* write_ptr = (char*)(data->dump_area);
-        char counter = 0;
+        long counter = 0;
         while (counter < data->size) {
             fputc(*(write_ptr + counter), dump_file);
             ++counter;
