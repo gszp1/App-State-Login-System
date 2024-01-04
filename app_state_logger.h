@@ -36,7 +36,7 @@ typedef enum {
 // Structure for data saved in dump file.
 typedef struct {
     void* dump_area;
-    long size;
+    unsigned long size;
 } dump_data_t;
 
 // Function declarations //
